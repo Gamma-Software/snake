@@ -1,5 +1,6 @@
 import enum
 import numpy as np
+import pygame
 
 class Orientation (enum.Enum):
     UP = 0,
@@ -15,6 +16,7 @@ class Snake:
             self.position.append((self.position[0][0], self.position[0][1]+i*_size))
         self.orientation = Orientation.UP
         self.size = _size
+        
 
     def update_position(self, _orientation: Orientation):
         self.orientation = _orientation
@@ -50,6 +52,12 @@ class Snake:
             if self.position[0] == self.position[i]:
                 return True
         return False
+
+    def draw(self, surface: pygame.Surface) -> None:
+        pygame.draw.rect(surface, pygame.Color(255, 0, 0), pygame.Rect(self.position[0][0]+1, self.position[0][1]+1, 4, 4))
+        for snake_member in range(1, len(self.position)):
+            pygame.draw.rect(surface, pygame.Color(200, 200, 200), pygame.Rect(self.position[snake_member][0]+1, self.position[snake_member][1]+1, 4, 4))
+        pass
 
 def test_movement():
     snake = Snake(10, 10, 1, 3)
