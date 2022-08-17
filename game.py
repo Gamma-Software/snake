@@ -18,6 +18,7 @@ import pygame
 import pygame.font
 from pygame.locals import *
 from fruit import Fruit
+from hud import HUD
 from game_area import GameArea
 
 class SnakeGame:
@@ -30,6 +31,8 @@ class SnakeGame:
         self.orientation = Orientation.UP
         self.fruit = Fruit(self.game_area)
         self.score = 0
+        self.hud = HUD()
+        self.hud.update_score(self.score)
         
     def check_eat(self) -> None:
         if self.snake.position[0][0] == self.fruit.position[0] and self.snake.position[0][1] == self.fruit.position[1]:
@@ -37,6 +40,7 @@ class SnakeGame:
             self.fruit = Fruit(self.game_area)
             self.snake.eat()
             self.score += 1
+            self.hud.update_score(self.score)
             print("Eat fruit")
 
     def play_game(self) -> None:
@@ -66,13 +70,11 @@ class SnakeGame:
             self.game_area.draw()
             self.snake.draw(self.game_area.background)
             self.fruit.draw(self.game_area.background)
+            self.hud.draw(self.game_area.background)
             self.draw()
             pygame.time.delay(100)
 
     def draw(self) -> None:
-        font = pygame.font.Font(None, 36)
-        text = font.render("Score: " + str(self.score), True, (255, 255, 255))
-        self.game_area.background.blit(text, (10, 10))
         pygame.display.flip()
         pygame.display.set_caption("Snake, Score: " + str(self.score))
         pygame.display.update()
