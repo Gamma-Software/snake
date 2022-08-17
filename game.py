@@ -11,6 +11,9 @@ The game is over when the snake hits the end of the area or eats itself.
 """
 
 import time
+
+
+import math
 from snake import Snake, Orientation
 import sys
 import pygame
@@ -68,7 +71,8 @@ class SnakeGame:
             self.game_over = self.game_area.check_wall_collision(self.snake) or self.snake.check_self_kill()
             self.check_eat()
             self.game_area.draw()
-            self.hud.update_time(round(time.time()) - self.start_time)
+            current_time = round(time.time()) - self.start_time
+            self.hud.update_time(current_time%60, math.trunc(current_time/60))
             self.snake.draw(self.game_area.background)
             self.fruit.draw(self.game_area.background)
             self.hud.draw(self.game_area.background)

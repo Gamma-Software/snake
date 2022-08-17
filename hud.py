@@ -9,8 +9,8 @@ class HUD :
     def update_score(self, _score):
         self.score = self.font.render("Score: " + str(_score), True, (255, 255, 255))
 
-    def update_time(self, _time):
-        self.time = self.font.render(str(_time), True, (255, 255, 255))
+    def update_time(self, _seconds, _minutes):
+        self.time = self.font.render(str(_minutes)+":"+str(_seconds), True, (255, 255, 255))
 
     def draw(self, _surface):
         _surface.blit(self.score, (10, 10))
