@@ -25,11 +25,11 @@ from game_area import GameArea
 
 class SnakeGame:
     def __init__(self) -> None:
-        self.game_area = GameArea(500, 500)
+        self.game_area = GameArea(200, 200)
         pygame.display.set_caption("Snake")
         pygame.display.flip()
         self.game_over = False
-        self.snake = Snake(self.game_area.width, self.game_area.height, 5, 100)
+        self.snake = Snake(self.game_area.width, self.game_area.height, 5, 5)
         self.orientation = Orientation.UP
         self.fruit = Fruit(self.game_area)
         self.score = 0
@@ -48,22 +48,27 @@ class SnakeGame:
 
     def play_game(self) -> None:
         while not self.game_over:
+            orientation_key_pressed = False
             for event in pygame.event.get():
                 if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                     print("User requested to quit.")
                     sys.exit()
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN and not orientation_key_pressed:
                     if event.key == K_DOWN and self.orientation != Orientation.UP:
                         self.orientation = Orientation.DOWN
+                        orientation_key_pressed = True
                         print("User requested to down.")
                     elif event.key == K_UP and self.orientation != Orientation.DOWN:
                         self.orientation = Orientation.UP
+                        orientation_key_pressed = True
                         print("User requested to up.")
                     elif event.key == K_LEFT and self.orientation != Orientation.RIGHT:
                         self.orientation = Orientation.LEFT
+                        orientation_key_pressed = True
                         print("User requested to left.")
                     elif event.key == K_RIGHT and self.orientation != Orientation.LEFT:
                         self.orientation = Orientation.RIGHT
+                        orientation_key_pressed = True
                         print("User requested to right.")
                     else:
                         pass
